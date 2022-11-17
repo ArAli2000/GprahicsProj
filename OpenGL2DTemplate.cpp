@@ -1,11 +1,11 @@
 #include <stdlib.h> 
 #include <cmath>
-#include <glut.h>
+#include <GL/glut.h>
 #include "controls.cpp"
 void Display(void);
 void Anim(void);
 
-const int period = 16;
+const int period = 10;
 
 float xr,yr ,xrP2, yrP2= 0;
 int frame = 0, timebase = 0;
@@ -26,9 +26,10 @@ void keyUp(unsigned char key, int x, int y) {
 }
 
 void keyOperations() {
-	c.keyOperations(p1);
-	c.keyOperations2(p2);
+	c.keyOperations(p2);
+	c.keyOperations2(p1);
 }
+
 void timer(int n)
 {
 
@@ -63,7 +64,7 @@ void refreshScreen() {
 
 
 
-void main(int argc, char** argr)
+int main(int argc, char** argr)
 {
 	glutInit(&argc, argr);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
@@ -80,16 +81,6 @@ void main(int argc, char** argr)
 
 	//glutIdleFunc(refreshScreen);
 	glutMainLoop();
-}
-
-
-void drawCircle(int x, int y, float r)
-{
-	glPushMatrix();
-	glTranslatef(x, y, 0);
-	GLUquadric* quadObj = gluNewQuadric();
-	gluDisk(quadObj, 0, r, 1000, 1000);
-	glPopMatrix();
 }
 
 void Display(void)
@@ -111,7 +102,7 @@ void Display(void)
 
 	glColor3f(1, 1, 1);
 	drawCircle(250, 250, 3);
-
+	
 	glColor3f(1, 1, 1);
 	glBegin(GL_LINES);
 	glVertex2f(60, 250);

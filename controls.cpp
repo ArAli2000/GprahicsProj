@@ -1,18 +1,18 @@
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <cmath>
-#include <glut.h>
+#include <GL/glut.h>
 
 #include "Player.cpp"
 
-class controls {
-	bool keystates[256] = { false };
-	public:
-		controls()
-		{
+class controls
+{
+	bool keystates[256] = {false};
 
-		}
+public:
+	controls()
+	{
+	}
 
-		
 	void keyPressed(unsigned char key, int x, int y)
 	{
 		keystates[key] = true;
@@ -25,89 +25,61 @@ class controls {
 
 	void keyOperations(Player &p)
 	{
-			if (keystates['w'])
-			{
-				if (p.yr < 0)
-				{
-					p.yr += 8;
-				}
-			}
-			if (keystates['s'])
-			{
-				if (p.yr > -185)
-				{
-					p.yr -= 8;
-				}
-			}
-			if (keystates['a'])
-			{
-				if (p.xr > -164)
-				{
-					p.xr -= 8;
-				}
-			}
-			if (keystates['d'])
-			{
-				if (p.xr < 164)
-				{
-					p.xr += 8;
-				}
-			}
+		if (keystates['w'])
+		{
+			p.speed.y = 8;
 		}
-	void keyOperations2(Player& p)
+		if (keystates['s'])
+		{
+			p.speed.y = -8;
+		}
+
+		if (keystates['w'] == keystates['s'])
+		{
+			p.speed.y = 0;
+		}
+
+		if (keystates['a'])
+		{
+			p.location.x -= 8;
+		}
+		if (keystates['d'])
+		{
+
+			p.location.x += 8;
+		}
+
+		if (keystates['a'] == keystates['d'])
+		{
+			p.speed.x = 0;
+		}
+	}
+
+	void keyOperations2(Player &p)
 	{
 		if (keystates['i'])
 		{
-			if (p.yr + 15 > 190)
-			{
-				p.yr = 190;
-				glutPostRedisplay();
-			}
-			if (p.yr < 190)
-			{
-				p.yr += 15;
-				glutPostRedisplay();
-			}
+			p.speed.y = 15;
 		}
 		if (keystates['k'])
 		{
-			if (p.yr - 15 < 0)
-			{
-				p.yr = 0;
-				glutPostRedisplay();
-			}
-			if (p.yr > 0)
-			{
-				p.yr -= 15;
-				glutPostRedisplay();
-			}
+			p.speed.y = -15;
+		}
+		if (keystates['i'] == keystates['k'])
+		{
+			p.speed.y = 0;
 		}
 		if (keystates['l'])
 		{
-			if (p.xr + 15 > 170)
-			{
-				p.xr = 170;
-				glutPostRedisplay();
-			}
-			if (p.xr < 170)
-			{
-				p.xr += 15;
-				glutPostRedisplay();
-			}
+			p.speed.x = 15;
 		}
 		if (keystates['j'])
 		{
-			if (p.xr - 15 < -170)
-			{
-				p.xr = -170;
-				glutPostRedisplay();
-			}
-			if (p.xr > -170)
-			{
-				p.xr -= 15;;
-				glutPostRedisplay();
-			}
+			p.speed.x = -15;
+		}
+		if (keystates['l'] == keystates['j'])
+		{
+			p.speed.x = 0;
 		}
 	}
-	
 };
