@@ -24,7 +24,7 @@ public:
 		drawCircle(location.x, location.y, 15);
 	}
 
-    void move() {
+    void updateLocation() {
 
     }
 

@@ -25,61 +25,71 @@ public:
 
 	void keyOperations(Player &p)
 	{
+		int yDir;
+		int xDir;
+
 		if (keystates['w'])
 		{
-			p.speed.y = 8;
+			yDir = 1;
 		}
 		if (keystates['s'])
 		{
-			p.speed.y = -8;
+			yDir = -1;
 		}
 
 		if (keystates['w'] == keystates['s'])
 		{
-			p.speed.y = 0;
+			yDir = 0;
 		}
 
 		if (keystates['a'])
 		{
-			p.location.x -= 8;
+			xDir = -1;
 		}
 		if (keystates['d'])
 		{
 
-			p.location.x += 8;
+			xDir = 1;
 		}
 
 		if (keystates['a'] == keystates['d'])
 		{
-			p.speed.x = 0;
+			xDir = 0;
 		}
+
+		p.move(xDir, yDir);
 	}
 
 	void keyOperations2(Player &p)
 	{
+
+		int yDir;
+		int xDir;
 		if (keystates['i'])
 		{
-			p.speed.y = 15;
+			yDir = 1;
 		}
 		if (keystates['k'])
 		{
-			p.speed.y = -15;
+			yDir = -1;
 		}
 		if (keystates['i'] == keystates['k'])
 		{
-			p.speed.y = 0;
+			yDir = 0;
 		}
 		if (keystates['l'])
 		{
-			p.speed.x = 15;
+			xDir = 1;
 		}
 		if (keystates['j'])
 		{
-			p.speed.x = -15;
+			xDir = -1;
 		}
 		if (keystates['l'] == keystates['j'])
 		{
-			p.speed.x = 0;
+			xDir = 0;
 		}
+
+		p.move(xDir, yDir);
 	}
 };
