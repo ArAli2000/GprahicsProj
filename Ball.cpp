@@ -1,6 +1,10 @@
 #include <stdlib.h>
 #include <cmath>
+#ifdef WIN32
+#include <glut.h>
+#else
 #include <GL/glut.h>
+#endif
 #include <iostream>
 
 #include "DrawTools.h"

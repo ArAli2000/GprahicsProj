@@ -1,8 +1,13 @@
 #include <iostream>
 #include <cmath>
+#ifdef _WIN32
+#include <glut.h>
+#else
 #include <GL/glut.h>
+#endif
 #include <list>
 #include <string>
+#include <Windows.h>
 
 #include "Ball.h"
 #include "DrawTools.h"
@@ -12,8 +17,10 @@
 
 void Display(void);
 void Anim(void);
+void Init(int *argc, char **arg);
 
 const int period = 10;
+const char *WindowName = "Our Game";
 
 float xr, yr, xrP2, yrP2 = 0;
 int frame = 0, timebase = 0;
@@ -37,9 +44,9 @@ void testCallback()
 void testCollision()
 {
 	CircleBorder p1B(p1.location, 20);
-	// RectangleBorder rB(Vector(60, 40), Vector(440, 460));
+	RectangleBorder rB(Vector(60, 40), Vector(440, 460));
 	CircleBorder p2B(p2.location, 20);
-	bool collision = cd.circleCircleCollisionDetect(p1B, p2B);
+	bool collision = cd.circleRectCollisionDetect(p1B, rB);
 
 	if (collision)
 	{
@@ -102,21 +109,24 @@ void refreshScreen()
 
 int main(int argc, char **argr)
 {
-	glutInit(&argc, argr);
-	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-	glutInitWindowSize(500, 500);
-	glutInitWindowPosition(50, 50);
-	glutCreateWindow("Shape");
-	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+	Init(&argc, argr);
 	glutDisplayFunc(Display);
-	gluOrtho2D(0.0, 500.0, 0.0, 500.0);
-	glutIgnoreKeyRepeat(0);
 	glutKeyboardFunc(keyPressed);
 	glutKeyboardUpFunc(keyUp);
 	glutTimerFunc(period, timer, 0);
-
-	// glutIdleFunc(refreshScreen);
 	glutMainLoop();
+}
+
+void Init(int *argc, char **arg)
+{
+	glutInit(argc, arg);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+	glutInitWindowSize(500, 500);
+	glutInitWindowPosition(50, 50);
+	glutCreateWindow(WindowName);
+	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+	gluOrtho2D(0.0, 500.0, 0.0, 500.0);
+	glutIgnoreKeyRepeat(0);
 }
 
 void Display(void)
@@ -149,7 +159,7 @@ void Display(void)
 	b.drawBall();
 	testCollision();
 
-	glFlush();
+	glutSwapBuffers();
 }
 
 void Anim()

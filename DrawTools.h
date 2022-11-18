@@ -1,6 +1,6 @@
 #ifndef DRAW_H
 #define DRAW_H
-#include <GL/glut.h>
+#include <glut.h>
 
 void drawCircle(int x, int y, float r);
 

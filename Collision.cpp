@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <cmath>
-#include <GL/glut.h>
+#include <glut.h>
 #include <list>
 #include <functional>
 #include "Border.h"
