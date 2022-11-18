@@ -3,29 +3,53 @@
 #include <GL/glut.h>
 #include <iostream>
 
-#include "DrawTools.cpp"
-#include "BaseTypes.cpp"
+#include "DrawTools.h"
+#include "BaseTypes.h"
+#include "Ball.h"
 
-class Ball {
-    public:
-	Vector location;
+Ball::Ball(int x, int y) : location(x, y) {}
 
-public:
-	Vector speed = Vector(0, 0);
+void Ball::drawBall(void)
+{
+	updateLocation();
+	glColor3f(0.0f, 0.0f, 1.0f);
+	drawCircle(location.x, location.y, 10);
+	glColor3f(0.0f, 0.0f, 0.9f);
+	drawCircle(location.x, location.y, 5);
+}
 
-public:
-    Ball(int x, int y) : location(x, y) {}
+void Ball::applyFriction()
+{
+	double xDir = 0;
+	double yDir = 0;
 
-	void drawBall(void)
+	if (speed.x > 0)
 	{
-		glColor3f(0.0f, 0.0f, 1.0f);
-		drawCircle(location.x, location.y, 20);
-		glColor3f(0.0f, 0.0f, 0.9f);
-		drawCircle(location.x, location.y, 15);
+		xDir = 1;
+	}
+	else if (speed.x < 0)
+	{
+		xDir = -1;
 	}
 
-    void updateLocation() {
+	if (speed.y > 0)
+	{
+		yDir = 1;
+	}
+	else if (speed.y < 0)
+	{
+		yDir = -1;
+	}
+	speed.x -= friction * xDir;
+	speed.y -= friction * yDir;
+}
 
-    }
-
-};
+void Ball::updateLocation()
+{
+	if (speed.x || speed.y)
+	{
+		applyFriction();
+		location.x += speed.x;
+		location.y += speed.y;
+	}
+}

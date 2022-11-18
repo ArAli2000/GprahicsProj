@@ -14,6 +14,8 @@
         "ostream": "cpp",
         "streambuf": "cpp",
         "tuple": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "list": "cpp",
+        "iostream": "cpp"
     }
 }

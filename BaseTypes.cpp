@@ -1,15 +1,7 @@
-class Vector
+#include "BaseTypes.h"
+
+Vector::Vector(double x, double y)
 {
-public:
-    int x;
-
-public:
-    int y;
-
-public:
-    Vector(int x, int y)
-    {
-        this->x = x;
-        this->y = y;
-    }
-};
+    this->x = x;
+    this->y = y;
+}

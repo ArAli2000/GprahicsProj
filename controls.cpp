@@ -2,7 +2,7 @@
 #include <cmath>
 #include <GL/glut.h>
 
-#include "Player.cpp"
+#include "Player.h"
 
 class controls
 {

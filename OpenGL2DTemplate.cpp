@@ -1,45 +1,81 @@
-#include <stdlib.h> 
+#include <iostream>
 #include <cmath>
 #include <GL/glut.h>
+#include <list>
+#include <string>
+
+#include "Ball.h"
+#include "DrawTools.h"
 #include "controls.cpp"
+#include "Player.h"
+#include "Collision.cpp"
+
 void Display(void);
 void Anim(void);
 
 const int period = 10;
 
-float xr,yr ,xrP2, yrP2= 0;
+float xr, yr, xrP2, yrP2 = 0;
 int frame = 0, timebase = 0;
 int fps = 0;
 
+void testCallback();
 
 Player p1(250, 445);
-Player p2(250, 55); 
+Player p2(250, 55);
+Ball b(0, 0);
 controls c;
 
+CollisionCase c1({CircleBorder(Vector(3, 5), 3)}, &testCallback);
+CollisionDetector cd;
 
-void keyPressed(unsigned char key, int x, int y) {
+void testCallback()
+{
+	printf("This is a callback");
+}
+
+void testCollision()
+{
+	CircleBorder p1B(p1.location, 20);
+	// RectangleBorder rB(Vector(60, 40), Vector(440, 460));
+	CircleBorder p2B(p2.location, 20);
+	bool collision = cd.circleCircleCollisionDetect(p1B, p2B);
+
+	if (collision)
+	{
+		glColor3f(1.0f, 0.0f, 0.0f);
+		drawCircle(250, 250, 48);
+	}
+}
+
+void keyPressed(unsigned char key, int x, int y)
+{
 	c.keyPressed(key, x, y);
 }
 
-void keyUp(unsigned char key, int x, int y) {
+void keyUp(unsigned char key, int x, int y)
+{
 	c.keyUp(key, x, y);
 }
 
-void keyOperations() {
+void keyOperations()
+{
 	c.keyOperations(p2);
 	c.keyOperations2(p1);
 }
 
 void timer(int n)
 {
+	keyOperations();
 
 	glutPostRedisplay();
 	glutTimerFunc(period, timer, 0);
-	
+
 	frame++;
 	long time = glutGet(GLUT_ELAPSED_TIME);
 
-	if (time - timebase > period) {
+	if (time - timebase > period)
+	{
 		fps = frame * 1000.0 / (time - timebase);
 		timebase = time;
 		frame = 0;
@@ -48,11 +84,13 @@ void timer(int n)
 	}
 }
 
-void refreshScreen() {
+void refreshScreen()
+{
 	frame++;
 	long time = glutGet(GLUT_ELAPSED_TIME);
 
-	if (time - timebase > period) {
+	if (time - timebase > period)
+	{
 		glutPostRedisplay();
 		fps = frame * 1000.0 / (time - timebase);
 		timebase = time;
@@ -62,9 +100,7 @@ void refreshScreen() {
 	}
 }
 
-
-
-int main(int argc, char** argr)
+int main(int argc, char **argr)
 {
 	glutInit(&argc, argr);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
@@ -79,13 +115,12 @@ int main(int argc, char** argr)
 	glutKeyboardUpFunc(keyUp);
 	glutTimerFunc(period, timer, 0);
 
-	//glutIdleFunc(refreshScreen);
+	// glutIdleFunc(refreshScreen);
 	glutMainLoop();
 }
 
 void Display(void)
 {
-	keyOperations();
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glColor3f(0.25f, 0.25f, 0.45f);
@@ -102,20 +137,21 @@ void Display(void)
 
 	glColor3f(1, 1, 1);
 	drawCircle(250, 250, 3);
-	
+
 	glColor3f(1, 1, 1);
 	glBegin(GL_LINES);
 	glVertex2f(60, 250);
 	glVertex2f(440, 250);
-	glEnd();	
-	
+	glEnd();
+
 	p1.drawPlayer();
 	p2.drawPlayer();
+	b.drawBall();
+	testCollision();
 
 	glFlush();
 }
 
 void Anim()
 {
-	
 }

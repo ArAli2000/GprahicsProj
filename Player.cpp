@@ -1,24 +1,14 @@
 #include <stdlib.h>
 #include <cmath>
 #include <GL/glut.h>
-#include <iostream>
-#include "Ball.cpp"
+#include "Ball.h"
+#include "DrawTools.h"
+#include "Player.h"
 
-class Player
-{
-public:
-	Vector location;
 
-public:
-	Vector speed = Vector(0, 0);
+	Player::Player(int x, int y) : location(x, y){};
 
-private:
-	int movementSpeed = 8;
-
-public:
-	Player(int x, int y) : location(x, y){};
-
-	void drawPlayer(void)
+	void Player::drawPlayer(void)
 	{
 		updateLocation();
 		glColor3f(0.0f, 0.0f, 1.0f);
@@ -29,7 +19,7 @@ public:
 		drawCircle(location.x, location.y, 5);
 	}
 
-	void move(int x, int y) {
+	void Player::move(int x, int y) {
 		if (x > 0) {
 			speed.x = movementSpeed;
 		} else if (x == 0) {
@@ -46,9 +36,10 @@ public:
 		}
 	}
 
-	void updateLocation()
+	void Player::updateLocation()
 	{
-		location.x += speed.x;
-		location.y += speed.y;
+		if (speed.x || speed.y) {
+			location.x += speed.x;
+			location.y += speed.y;
+		}
 	}
-};
