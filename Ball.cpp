@@ -66,8 +66,8 @@ CircleBorder Ball::getBallBorder()
 
 void Ball::fixCollision()
 {
-	location.x = touchLocation.x;
-	location.y = touchLocation.y;
+	// location.x = touchLocation.x;
+	// location.y = touchLocation.y;
 	speed.x = collideSpeed.x;
 	speed.y = collideSpeed.y;
 }
