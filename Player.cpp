@@ -9,20 +9,20 @@
 #include "DrawTools.h"
 #include "Player.h"
 
-Player::Player(int x, int y) : location(x, y){};
+Player::Player(double x, double y) : location(x, y){};
 
 void Player::drawPlayer(void)
 {
 	updateLocation();
 	glColor3f(0.0f, 0.0f, 1.0f);
-	drawCircle(location.x, location.y, 20);
+	drawCircle(location.x, location.y, radius);
 	glColor3f(0.0f, 0.0f, 0.9f);
-	drawCircle(location.x, location.y, 15);
+	drawCircle(location.x, location.y, radius / (20.0/15));
 	glColor3f(0.0f, 0.0f, 0.8f);
-	drawCircle(location.x, location.y, 5);
+	drawCircle(location.x, location.y, radius / 4);
 }
 
-void Player::move(int x, int y)
+void Player::move(double x, double y)
 {
 	if (x > 0)
 	{
@@ -50,6 +50,35 @@ void Player::move(int x, int y)
 	}
 }
 
+void Player::bound(Vector &boundDirections, double safeX, double safeY)
+{
+	isBounded = true;
+	boundDirection = boundDirections;
+	if (boundDirections.y)
+	{
+		safeLocation.y = safeY;
+		speed.y = 0;
+	}
+	if (boundDirections.x)
+	{
+		safeLocation.x = safeX;
+		speed.x = 0;
+	}
+}
+
+void Player::fixCollision()
+{
+	if (boundDirection.y)
+	{
+		location.y = safeLocation.y;
+	}
+	if (boundDirection.x)
+	{
+		location.x = safeLocation.x;
+	}
+	
+}
+
 void Player::updateLocation()
 {
 	if (speed.x || speed.y)
@@ -57,4 +86,13 @@ void Player::updateLocation()
 		location.x += speed.x;
 		location.y += speed.y;
 	}
+	if (isBounded)
+	{
+		fixCollision();
+		isBounded = false;
+	}
+}
+
+CircleBorder Player::getPlayerBorder() {
+	return CircleBorder(location, radius, speed);
 }

@@ -2,6 +2,8 @@
 #define DRAW_H
 #include <glut.h>
 
-void drawCircle(int x, int y, float r);
+void drawCircle(double x, double y, float r);
+
+void drawPointLocation(double x, double y);
 
 #endif
