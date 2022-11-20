@@ -10,13 +10,18 @@
 #include "DrawTools.h"
 #include "BaseTypes.h"
 #include "Ball.h"
+#include "timercpp.h"
 
 Ball::Ball(int x, int y) : location(x, y) {}
 
 void Ball::drawBall(void)
 {
 	updateLocation();
-	glColor3f(0.0f, 0.0f, 1.0f);
+	if (friction == slowFriction) {
+		glColor3f(0.0f, 0.0f, 1.0f);
+	} else {
+		glColor3f(1, 0, 0);
+	}
 	drawCircle(location.x, location.y, radius);
 	glColor3f(0.0f, 0.0f, 0.9f);
 	drawCircle(location.x, location.y, (2 * radius) / 3);
@@ -50,10 +55,11 @@ void Ball::updateLocation()
 	{
 		applyFriction();
 	}
-	if (collided)
+	if (circleCollision || rectCollision)
 	{
 		fixCollision();
-		collided = false;
+		circleCollision = false;
+		rectCollision = false;
 	}
 	location.x += speed.x;
 	location.y += speed.y;
@@ -66,10 +72,13 @@ CircleBorder Ball::getBallBorder()
 
 void Ball::fixCollision()
 {
-	// location.x = touchLocation.x;
-	// location.y = touchLocation.y;
+
 	speed.x = collideSpeed.x;
 	speed.y = collideSpeed.y;
+
+	location.x = touchLocation.x;
+	location.y = touchLocation.y;
+	
 }
 
 void Ball::collideWithRect(Vector &directionVector, double safeX, double safeY)
@@ -91,7 +100,7 @@ void Ball::collideWithRect(Vector &directionVector, double safeX, double safeY)
 
 	collideSpeed.x = speed.x * xDir;
 	collideSpeed.y = speed.y * yDir;
-	collided = true;
+	rectCollision = true;
 }
 
 void Ball::collideWithCircle(Vector &incomingSpeed, double touchX, double touchY)
@@ -120,5 +129,16 @@ void Ball::collideWithCircle(Vector &incomingSpeed, double touchX, double touchY
 	double degree = (angle * 180) / (22 / 7);
 	collideSpeed.x = magnitude * cos(angle) * xDir;
 	collideSpeed.y = magnitude * sin(abs(angle)) * (yDir);
-	collided = true;
+
+	circleCollision = true;
+}
+
+void Ball::boostMode()
+{
+	if (friction == slowFriction)
+	{
+		friction = boostFriction;
+		later l(20000, true, [&]()
+				{ friction = slowFriction; });
+	}
 }

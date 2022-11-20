@@ -11,15 +11,26 @@
 
 Player::Player(double x, double y) : location(x, y){};
 
-void Player::drawPlayer(void)
+void Player::drawPlayer1(void)
 {
 	updateLocation();
-	glColor3f(0.0f, 0.0f, 1.0f);
+	glColor3f(0.0f, 0.589f, 0.222f);
 	drawCircle(location.x, location.y, radius);
-	glColor3f(0.0f, 0.0f, 0.9f);
-	drawCircle(location.x, location.y, radius / (20.0/15));
-	glColor3f(0.0f, 0.0f, 0.8f);
-	drawCircle(location.x, location.y, radius / 4);
+	glColor3f(0.992f, 0.863f, 0.0f);
+	drawCircle(location.x, location.y, 6*radius / 10);
+	glColor3f(0.0f, 0.128f, 0.410f);
+	drawCircle(location.x, location.y, 4*radius / 10);
+}
+
+void Player::drawPlayer2(void)
+{
+	updateLocation();
+	glColor3f(0.86f, 0.0f, 0.0f);
+	drawCircle(location.x, location.y, radius);
+	glColor3f(0.0f, 0.0f, 0.0f);
+	drawCircle(location.x, location.y, 6*radius / 10);
+	glColor3f(1.0f, 0.796f, 0.0f);
+	drawCircle(location.x, location.y, 4*radius / 10);
 }
 
 void Player::move(double x, double y)

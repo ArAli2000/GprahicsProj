@@ -29,7 +29,9 @@ private:
 public:
 	Player(double x, double y);
 
-	void drawPlayer(void);
+	void drawPlayer1(void);
+	void drawPlayer2(void);
+
 
 	void move(double x, double y);
 

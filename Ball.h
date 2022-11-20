@@ -13,9 +13,14 @@ public:
 
 private:
 	double friction = 0.1;
+private:
+	const double slowFriction = 0.1;
+private:
+	const double boostFriction = slowFriction/3;
 
 private:
 	double radius = 20;
+
 
 private:
 	Vector touchLocation = Vector(0, 0);
@@ -24,8 +29,11 @@ private:
 	Vector collideSpeed = Vector(0, 0);
 
 private:
-	bool collided = false;
+	bool circleCollision = false;
 
+
+private:
+	bool rectCollision = false;
 public:
 	Ball(int x, int y);
 
@@ -46,6 +54,9 @@ public:
 
 public:
 	void collideWithRect(Vector &directionVector, double safeX, double safeY);
+
+public:
+	void boostMode();
 };
 
 #endif
