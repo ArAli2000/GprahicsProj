@@ -119,14 +119,15 @@ void Ball::collideWithCircle(Vector &incomingSpeed, double touchX, double touchY
 		yDir = -1;
 	}
 
-	touchLocation.x = touchX + (radius)*xDir;
-	touchLocation.y = touchY + (radius)*yDir;
 
 	Vector reboundSpeed = Vector(abs(incomingSpeed.x - speed.x), abs(incomingSpeed.y - speed.y));
 	double magnitude = sqrt(pow(reboundSpeed.x, 2) + pow(reboundSpeed.y, 2));
 	double angle = atan((directionVector.y / directionVector.x));
+	double distance = sqrt(pow(directionVector.x,2) + pow(directionVector.y,2));
+	Vector unitDistanceVector = Vector(directionVector.x/distance, directionVector.y/distance);
 
-	double degree = (angle * 180) / (22 / 7);
+	touchLocation.x = touchX + unitDistanceVector.x*radius;
+	touchLocation.y = touchY + unitDistanceVector.y*radius;
 	collideSpeed.x = magnitude * cos(angle) * xDir;
 	collideSpeed.y = magnitude * sin(abs(angle)) * (yDir);
 

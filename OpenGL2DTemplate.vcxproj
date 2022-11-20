@@ -90,7 +90,7 @@
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="controls.cpp" />
     <ClCompile Include="DrawTools.cpp" />
-    <ClCompile Include="OpenGL2DTemplate.cpp" />
+    <ClCompile Include="P1-7000360.cpp" />
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
